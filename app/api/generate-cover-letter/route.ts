@@ -20,26 +20,23 @@ export async function POST(req: NextRequest) {
     - Job Description: ${jobDescription}
     
     Instructions:
-    1. Start with a warm and confident introduction stating the user's interest in the role at the company.
-    2. Highlight the most relevant professional experiences, education, and technical or soft skills that align with the job description.
-    3. Emphasize any projects or achievements from the resume that demonstrate initiative, innovation, leadership, or problem-solving.
-    4. Maintain a professional tone that feels human and natural, not robotic or overly formal.
-    5. Avoid generic statements — tailor the content specifically to the job role and company, using relevant experiences.
-    6. End with a short, polite closing that expresses enthusiasm for an interview opportunity and willingness to contribute.
+    1. Write a professional cover letter body (3–4 paragraphs), starting with a warm and confident introduction.
+    2. Focus on relevant experience, skills, education, or projects that align with the job description.
+    3. Emphasize measurable achievements, leadership, or initiative when possible.
+    4. Do not include personal contact details, the date, salutations like "Sincerely," or the applicant's name.
+    5. Do not repeat resume points verbatim—highlight insights, context, or impact behind those details.
+    6. Use a human and confident tone, avoiding robotic or overly formal language.
     
-    Requirements:
-    - Keep the letter to around 3–4 paragraphs.
-    - Focus on clarity, confidence, and relevance — make the candidate stand out.
-    - Do not repeat the resume; instead, bring out insights or stories that *support* it.
-    
-    Output Format:
-    Return only a JSON object with this exact shape:
+    Formatting Requirements:
+    - Output only a plain text string, with paragraphs separated by newline characters (\\n).
+    - Do not include any HTML or Markdown formatting.
+    - Return the output as a **JSON object** using this exact shape:
     
     {
-      "coverLetter": "Your full cover letter content here as a plain string (no HTML or Markdown)."
+      "cover_letter": "The full cover letter body, with paragraphs separated by \\n"
     }
     
-    Do not include any other text or keys in the response.
+    Do not return anything else—no explanations or other keys.
     `;
     
 

@@ -178,6 +178,7 @@ const{user}=useUser()
                   <label className='text-xs'>Start date</label>
                   <Input type='date' name='startDate' placeholder='Add your job Start date'
                     onChange={(e) => handleChange(e, index)}
+                    required
                     value={item.startDate}
                   />
                 </div>
@@ -187,6 +188,7 @@ const{user}=useUser()
                     <label className='text-xs'>End  date</label>
                     <Input type='date' name='endDate' placeholder='Add your job end date'
                       value={item.endDate}
+                      required
                       onChange={(e) => handleChange(e, index)} />
                   </div>
                 )}
