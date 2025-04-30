@@ -38,7 +38,10 @@ const SummaryForm = (
        summary:resumeInfo?.summary,
        title:resumeInfo?.jobTitle
       })
+      console.log("summary",resp);
+      
       toast.info('AI summary generated!')
+
       let aiSummary = '';
       if (typeof resp.data.results === 'string') {
         aiSummary = resp.data.results; // If it's directly a string

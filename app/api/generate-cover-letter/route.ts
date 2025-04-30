@@ -32,8 +32,16 @@ export async function POST(req: NextRequest) {
     - Focus on clarity, confidence, and relevance — make the candidate stand out.
     - Do not repeat the resume; instead, bring out insights or stories that *support* it.
     
-    Generate only the body of the letter, without formatting like HTML or Markdown.
+    Output Format:
+    Return only a JSON object with this exact shape:
+    
+    {
+      "coverLetter": "Your full cover letter content here as a plain string (no HTML or Markdown)."
+    }
+    
+    Do not include any other text or keys in the response.
     `;
+    
 
     try {
         const aiResp = await generateCoverLetter.sendMessage(aiPrompt)

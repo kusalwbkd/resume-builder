@@ -41,7 +41,7 @@ const{user}=useUser()
       });
 
      // const data = await response.json();
-      console.log(response.data.coverLetter);
+   
       
       setCoverLetter(response?.data.coverLetter || 'No cover letter generated.');
     } catch (error) {
@@ -67,7 +67,6 @@ const{user}=useUser()
             "Content-Type": "application/json",
           },
         })
-console.log("result==>",result);
 
       toast.success("Cover Letter generated");
      // enableNext(true)

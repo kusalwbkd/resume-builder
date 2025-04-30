@@ -24,6 +24,8 @@ const RichTextEditor = ({onRichEditorChange,item}:any) => {
         workingSummary:item.workingSummary,
         title:item.titlle       
       })
+      console.log("responsen is",resp);
+      
       toast.info('AI summary generated!')
 
       // console.log("resp",resp);

@@ -25,11 +25,13 @@ const RichTextEditorForProject = ({ onRichEditorChange, item }: any) => {
                 projectName: item.projectName,
                 features: item.features
             })
+            console.log("from project page",resp);
+
             toast.info('project features generated!')
 
             let aiSummary = resp.data.results;;
 
-
+             
          
 
             const aiSummaryString = Array.isArray(aiSummary) ? aiSummary.join('\n') : aiSummary;
