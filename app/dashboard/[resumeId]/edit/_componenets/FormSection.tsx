@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import PersonalDetailsForm from './PersonalDetailsForm'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, ArrowRight, PaintBucket } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import SummaryForm from './SummaryForm'
 import { useResumeProvider } from '@/context/ResumeProvider'
 import { useUser } from '@clerk/nextjs'
@@ -14,21 +14,17 @@ import ThemeColor from './ThemeColor'
 import SkillsForm from './SkillsForm'
 import ProjectForm from './ProjectForm'
 import OtherInformationForm from './OtherInformationForm'
-import RefreePreview from './RefreePreview'
 import RefreeForm from './RefreeForm'
 import Final from './Final'
 
-const FormSection = () => {
+const FormSection = ({layout}:{layout:number}) => {
   const [activeIndex, setActiveIndex] = useState(1)
   const [enableNext, setEnableNext] = useState(false)
-  type Params = {
-    resumeId: string;
-  };
   const { resumeInfo, setResumeInfo } = useResumeProvider()
-
   const { user } = useUser()
-  const { resumeId } = useParams<Params>()
+  const { resumeId } = useParams<{ resumeId: string }>()
   const [resumeLoading, setResumeLoading] = useState(false)
+
   useEffect(() => {
     if (resumeId) {
       getResumeInfo();
@@ -44,145 +40,119 @@ const FormSection = () => {
           email: user?.primaryEmailAddress?.emailAddress
         }
       })
-      const { data } = result
-      const { resume } = data
-
-      const { email, firstName, lastName, jobTitle, address, phone, photo, id, summary, experience, education,
-        linkedIn,
-        gitHub,
-        website,
-        themeColor,
-        skills,
-        projects,
-        notice_period,
-        languages,
-        refrees,
-        cover_letter
-      } = resume[0]
+      const { resume } = result.data
+      const res = resume[0]
       setResumeInfo({
         ...resumeInfo,
-        email: email,
-        firstName,
-        lastName,
-        themeColor,
-        jobTitle,
-        linkedIn,
-        gitHub,
-        website,
-        address,
-        phone,
-        photo,
-        summary,
-        experience: JSON.parse(experience),
-        education: JSON.parse(education),
-        skills: JSON.parse(skills),
-        projects: JSON.parse(projects),
-        notice_period,
-        languages,
-        refrees:JSON.parse(refrees),
-        cover_letter
+        email: res.email,
+        firstName: res.firstName,
+        lastName: res.lastName,
+        themeColor: res.themeColor,
+        jobTitle: res.jobTitle,
+        linkedIn: res.linkedIn,
+        gitHub: res.gitHub,
+        website: res.website,
+        address: res.address,
+        phone: res.phone,
+        photo: res.photo,
+        summary: res.summary,
+        experience: JSON.parse(res.experience),
+        education: JSON.parse(res.education),
+        skills: JSON.parse(res.skills),
+        projects: JSON.parse(res.projects),
+        notice_period: res.notice_period,
+        languages: res.languages,
+        refrees: JSON.parse(res.refrees),
+        cover_letter: res.cover_letter
       })
-
     } catch (error) {
       console.log(error);
-
     } finally {
       setResumeLoading(false)
     }
-
-
-
   }
 
+  const sectionLabels = [
+    "Personal Details",
+    "Summary",
+    "Professional Experience",
+    "Education",
+    "Skills",
+    "Projects",
+    "Other Info",
+    "Referees",
+    "Final"
+  ]
+
   return (
-    <div>
-      <div className='flex justify-between items-center' >
-        {activeIndex <= 8 && resumeInfo &&  <ThemeColor />}
-       
-        <div className='flex gap-3'>
-          {activeIndex > 1 && <Button className='cursor-pointer' onClick={() => setActiveIndex(activeIndex - 1)} size={'sm'}><ArrowLeft />Back</Button>}
-          {activeIndex <= 8 &&<Button size={'sm'}
-            className='flex gap-2 cursor-pointer'
-            disabled={!enableNext}
-            onClick={() => setActiveIndex(activeIndex + 1)}
-          >Next <ArrowRight /></Button>}
+    <div className="space-y-4">
+      {/* Direct Navigation */}
+      <div className="flex flex-wrap gap-2">
+        {sectionLabels.map((label, index) => (
+          <Button
+            key={index}
+            variant={activeIndex === index + 1 ? "default" : "outline"}
+            className='cursor-pointer'
+            size="sm"
+            onClick={() => setActiveIndex(index + 1)}
+          >
+            {label}
+          </Button>
+        ))}
+      </div>
+
+      {/* Theme + Back / Next */}
+      <div className="flex justify-between items-center">
+        {activeIndex <= 8 && resumeInfo && <ThemeColor />}
+        <div className="flex gap-3">
+          {activeIndex > 1 && (
+            <Button
+              className="cursor-pointer"
+              onClick={() => setActiveIndex(activeIndex - 1)}
+              size="sm"
+            >
+              <ArrowLeft /> Back
+            </Button>
+          )}
+          {activeIndex <= 8 && (
+            <Button
+              size="sm"
+              className="flex gap-2 cursor-pointer"
+              disabled={!enableNext}
+              onClick={() => setActiveIndex(activeIndex + 1)}
+            >
+              Next <ArrowRight />
+            </Button>
+          )}
         </div>
       </div>
-     
-      {activeIndex === 1 ? (
-        resumeInfo &&
-        <PersonalDetailsForm resumeInfo={resumeInfo} 
-        setResumeInfo={setResumeInfo}
-        enableNext={(v: boolean) => setEnableNext(v)} resumeLoading={resumeLoading} />
-      ) : (
-        activeIndex === 2 ? (
-          resumeInfo&&
-          <SummaryForm 
-          resumeInfo={resumeInfo} 
-          setResumeInfo={setResumeInfo}
-          enableNext={(v: boolean) => setEnableNext(v)} resumeLoading={resumeLoading} />
-        ) : (
-          activeIndex === 3 ? (
-              resumeInfo&&
-            <ProfessionalExperianceForm 
-            resumeInfo={resumeInfo} 
-            setResumeInfo={setResumeInfo}
-            enableNext={(v: boolean) => setEnableNext(v)} resumeLoading={resumeLoading} />
 
-          ) : (
-            activeIndex === 4 ? (
-             resumeInfo&&
-              <EducationalForm 
-              resumeInfo={resumeInfo} 
-              setResumeInfo={setResumeInfo}
-              enableNext={(v: boolean) => setEnableNext(v)} resumeLoading={resumeLoading} />
-            ) : (
-              activeIndex === 5 ? (
-                resumeInfo&&
-                <SkillsForm
-                resumeInfo={resumeInfo} 
-                setResumeInfo={setResumeInfo}
-                enableNext={(v: boolean) => setEnableNext(v)} resumeLoading={resumeLoading} />
-              ) : (
-                activeIndex === 6 ? (
-                  resumeInfo&&
-                  <ProjectForm 
-                  resumeInfo={resumeInfo} 
-                  setResumeInfo={setResumeInfo}
-                  enableNext={(v: boolean) => setEnableNext(v)} resumeLoading={resumeLoading}
-                  />
-                ) : (
-                  activeIndex === 7 ? (
-                    resumeInfo&&
-                    <OtherInformationForm 
-                    resumeInfo={resumeInfo} 
-                  setResumeInfo={setResumeInfo}
-                  enableNext={(v: boolean) => setEnableNext(v)} resumeLoading={resumeLoading}
-                    />
-                  ) : (
-                    activeIndex===8?(
-                      resumeInfo && <RefreeForm
-                      resumeInfo={resumeInfo} 
-                  setResumeInfo={setResumeInfo}
-                  enableNext={(v: boolean) => setEnableNext(v)} resumeLoading={resumeLoading}
-                      />
-                    ):(
-                      activeIndex===9?(
-                        <Final
-                      
-                        />
-                      ):(
-                        null
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
-        )
+      {/* Dynamic Form Content */}
+      {activeIndex === 1 && resumeInfo && (
+        <PersonalDetailsForm {...{ resumeInfo, setResumeInfo, enableNext: setEnableNext, resumeLoading }} />
       )}
-
+      {activeIndex === 2 && resumeInfo && (
+        <SummaryForm {...{ resumeInfo, setResumeInfo, enableNext: setEnableNext, resumeLoading }} />
+      )}
+      {activeIndex === 3 && resumeInfo && (
+        <ProfessionalExperianceForm {...{ resumeInfo, setResumeInfo, enableNext: setEnableNext, resumeLoading }} />
+      )}
+      {activeIndex === 4 && resumeInfo && (
+        <EducationalForm {...{ resumeInfo, setResumeInfo, enableNext: setEnableNext, resumeLoading }} />
+      )}
+      {activeIndex === 5 && resumeInfo && (
+        <SkillsForm {...{ resumeInfo, setResumeInfo, enableNext: setEnableNext, resumeLoading }} />
+      )}
+      {activeIndex === 6 && resumeInfo && (
+        <ProjectForm {...{ resumeInfo, setResumeInfo, enableNext: setEnableNext, resumeLoading }} />
+      )}
+      {activeIndex === 7 && resumeInfo && (
+        <OtherInformationForm {...{ resumeInfo, setResumeInfo, enableNext: setEnableNext, resumeLoading }} />
+      )}
+      {activeIndex === 8 && resumeInfo && (
+        <RefreeForm {...{ resumeInfo, setResumeInfo, enableNext: setEnableNext, resumeLoading }} />
+      )}
+      {activeIndex === 9 && <Final layout={layout} />}
     </div>
   )
 }

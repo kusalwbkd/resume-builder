@@ -1,3 +1,4 @@
+"use client"
 import { useResumeProvider } from "@/context/ResumeProvider";
 import PersonalDetailsPreview from "./PersonalDetailsPreview";
 import Summary from "./Summary";
@@ -10,19 +11,19 @@ import RefreePreview from "./RefreePreview";
 import { useEffect, useRef, useState } from "react";
 import CoverLetterPreview from "./CoverLetterPreview";
 
-const ResumePreview = () => {
+const ResumePreview = ({layout,showCoverLetter}:{layout:number,showCoverLetter:boolean}) => {
   const { resumeInfo } = useResumeProvider();
 
   const coverLetterId = 'coverLetter';
   const resumeSections = [
-    { id: 'personalDetails', component: <PersonalDetailsPreview resumeInfo={resumeInfo} /> },
-    { id: 'summary', component: <Summary resumeInfo={resumeInfo} /> },
-    { id: 'experience', component: <ProffesionalExperiance resumeInfo={resumeInfo} /> },
-    { id: 'education', component: <EducationalExperiance resumeInfo={resumeInfo} /> },
-    { id: 'skills', component: <SkillsPreview resumeInfo={resumeInfo} /> },
-    { id: 'projects', component: <ProjectPreview resumeInfo={resumeInfo} /> },
-    { id: 'other', component: <OtherInformationPreview resumeInfo={resumeInfo} /> },
-    { id: 'refree', component: <RefreePreview resumeInfo={resumeInfo} /> },
+    { id: 'personalDetails', component: <PersonalDetailsPreview resumeInfo={resumeInfo} layout={layout}/> },
+    { id: 'summary', component: <Summary resumeInfo={resumeInfo} layout={layout}/> },
+    { id: 'experience', component: <ProffesionalExperiance resumeInfo={resumeInfo} layout={layout} /> },
+    { id: 'education', component: <EducationalExperiance resumeInfo={resumeInfo} layout={layout} /> },
+    { id: 'skills', component: <SkillsPreview resumeInfo={resumeInfo} layout={layout}/> },
+    { id: 'projects', component: <ProjectPreview resumeInfo={resumeInfo} layout={layout}/> },
+    { id: 'other', component: <OtherInformationPreview resumeInfo={resumeInfo} layout={layout}/> },
+    { id: 'refree', component: <RefreePreview resumeInfo={resumeInfo} layout={layout}/> },
   ];
 
   const A4_HEIGHT = 1123;
@@ -44,7 +45,7 @@ const MAX_CONTENT_HEIGHT = A4_HEIGHT - PAGE_PADDING * 2;
       const coverEl = containerRefs.current[coverLetterId];
       const coverHeight = coverEl?.getBoundingClientRect().height || 0;
 
-      if (coverHeight > 0) {
+      if (coverHeight > 0 &&  showCoverLetter) {
         setCoverLetterPage(<CoverLetterPreview resumeInfo={resumeInfo} />);
       } else {
         setCoverLetterPage(null); // no cover letter

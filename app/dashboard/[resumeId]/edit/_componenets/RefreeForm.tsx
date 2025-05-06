@@ -76,7 +76,9 @@ const{user}=useUser()
         const result=await axios.patch('/api/update-resume',{
           email:user?.primaryEmailAddress?.emailAddress,
             resumeId: resumeId,
-            refrees:JSON.stringify(refreeList)
+            refrees:JSON.stringify(refreeList),
+            themeColor:resumeInfo?.themeColor
+
          },
          {
             headers: {

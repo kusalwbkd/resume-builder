@@ -24,7 +24,7 @@ const Header = () => {
         })}
       </div>
       <div className='flex justify-center items-center gap-3 mx-5'>
-      {user&&  <Button className=' cursor-pointer'>Get Started +</Button>}
+      {user&&  <Link className=' cursor-pointer bg-primary rounded-md p-2 text-white' href={'/dashboard'}>Get Started +</Link>}
       <div className='hidden md:flex'>
       <UserButton/>
       </div>

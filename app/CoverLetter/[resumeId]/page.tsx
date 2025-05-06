@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useResumeProvider } from '@/context/ResumeProvider';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { Loader } from 'lucide-react';
@@ -15,13 +15,15 @@ const CoverLetterPage = () => {
   const[jobTitle,setJobTitle]=useState('')
   const [coverLetter, setCoverLetter] = useState('');
   const [loading, setLoading] = useState(false);
+  const router=useRouter()
   type Params = {
     resumeId: string; 
   };
       const{resumeId}=useParams<Params>()
    
 const{user}=useUser()
-
+const searchParams = useSearchParams();
+  const layout = parseInt(searchParams.get("layout") || "1"); 
   const generateCoverLetter = async () => {
     setLoading(true);
     setCoverLetter('');
@@ -53,7 +55,6 @@ const{user}=useUser()
   };
 
   const SavetoDb=async()=>{
-    console.log("started");
     
     setLoading(true)
     try {
@@ -69,6 +70,7 @@ const{user}=useUser()
         })
 
       toast.success("Cover Letter generated");
+      router.push(`/dashboard/${resumeId}/edit/Final/?layout=${layout}`)
      // enableNext(true)
     } catch (error) {
       toast.error('Error while updating summary')

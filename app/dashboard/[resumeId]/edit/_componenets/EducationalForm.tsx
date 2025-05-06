@@ -84,7 +84,9 @@ const EducationalForm = (
             const result=await axios.patch('/api/update-resume',{
                 email,
                 resumeId: resumeId,
-                education:JSON.stringify(educationList)
+                education:JSON.stringify(educationList),
+                themeColor:resumeInfo?.themeColor
+
              },
              {
                 headers: {

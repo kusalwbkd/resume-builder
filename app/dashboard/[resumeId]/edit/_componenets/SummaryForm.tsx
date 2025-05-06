@@ -75,7 +75,9 @@ const SummaryForm = (
       const result = await axios.patch('/api/update-resume', {
         email:user?.primaryEmailAddress?.emailAddress,
         resumeId: resumeId,
-        summary: resumeInfo?.summary
+        summary: resumeInfo?.summary,
+        themeColor:resumeInfo?.themeColor
+
       },
         {
           headers: {

@@ -5,7 +5,7 @@ import React from 'react'
 
 const ResumeItem = ({ resume }: { resume: ResumeType }) => {
   return (
-    <Link href={`/dashboard/${resume?.id}/edit`}>
+    <Link href={`/dashboard/${resume?.id}/selectLayout`}>
     <div className="group relative bg-secondary border border-primary rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 transform hover:-translate-y-1 mx-5 mt-10 cursor-pointer">
 
       {/* Gradient hover overlay */}

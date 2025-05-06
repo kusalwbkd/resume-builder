@@ -93,7 +93,8 @@ const ProjectForm = (
             const result = await axios.patch('/api/update-resume', {
                 email:user?.primaryEmailAddress?.emailAddress,
                 resumeId: resumeId,
-                projects: JSON.stringify(projectsList)
+                projects: JSON.stringify(projectsList),
+                themeColor:resumeInfo?.themeColor
             },
                 {
                     headers: {

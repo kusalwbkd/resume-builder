@@ -49,7 +49,9 @@ const OtherInformationForm = (
                   email,
                   resumeId: resumeId,
                   languages:resumeInfo.languages,
-                  notice_period:resumeInfo?.notice_period
+                  notice_period:resumeInfo?.notice_period,
+                  themeColor:resumeInfo?.themeColor
+
                   
                 },
                 {

@@ -69,7 +69,9 @@ const SkillsForm = (
             const result=await axios.patch('/api/update-resume',{
                 email:user?.primaryEmailAddress?.emailAddress,
                 resumeId: resumeId,
-                skills:JSON.stringify(skillsList)
+                skills:JSON.stringify(skillsList),
+                themeColor:resumeInfo?.themeColor
+
              },
              {
                 headers: {
